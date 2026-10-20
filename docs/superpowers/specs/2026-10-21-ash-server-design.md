@@ -286,7 +286,7 @@ ASH.Worker    (신규) AM 빌드·실행 전담 프로세스. 서버 DB의 대�
 
 ## 13. 저장소
 
-서버는 별도 저장소(`Leepy0/ASH_Servrr`, 사용자가 생성)에 둔다. `ASH.Server`, `ASH.Worker`는 이 저장소에서 만들고, `ASH.Core`는 ASH 저장소의 것을 참조한다(서브모듈 또는 NuGet 패키지 등 방식은 계획 단계에서 정한다). 플러그인 쪽 변경(14장)은 ASH 저장소에서 한다. ASH 설계의 2차 계획(Core 모듈 C·D, `2026-10-20-ash-model-and-runner.md`)이 끝난 뒤 이 설계의 구현 계획을 세운다. 2026-10-21 현재 2차는 Task 6까지 끝났고 진행 중이다. 서버가 2차의 `ModelRunner`, 결과 파서, 판정, `ModelBuilder`를 그대로 쓰므로, 계획은 2차 완료 시점의 인터페이스를 기준으로 세운다.
+서버는 별도 저장소(`Leepy0/ASH_Server`, 사용자가 생성)에 둔다. `ASH.Server`, `ASH.Worker`는 이 저장소에서 만들고, `ASH.Core`는 ASH 저장소의 것을 참조한다(서브모듈 또는 NuGet 패키지 등 방식은 계획 단계에서 정한다). 플러그인 쪽 변경(14장)은 ASH 저장소에서 한다. ASH 설계의 2차 계획(Core 모듈 C·D, `2026-10-20-ash-model-and-runner.md`)이 끝난 뒤 이 설계의 구현 계획을 세운다. 2026-10-21 현재 2차는 Task 6까지 끝났고 진행 중이다. 서버가 2차의 `ModelRunner`, 결과 파서, 판정, `ModelBuilder`를 그대로 쓰므로, 계획은 2차 완료 시점의 인터페이스를 기준으로 세운다.
 
 ## 14. ASH(플러그인·Core)에 필요한 변경
 
