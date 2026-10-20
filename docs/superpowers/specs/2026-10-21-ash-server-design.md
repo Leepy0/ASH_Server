@@ -310,3 +310,20 @@ ASH 저장소 쪽에서 반영할 항목이다.
 
 1. ~~결론 카드 "현재안" 기준~~ → 비교 기준값 없음. 권장 총 대수 + 시험 범위만 표시(6.8, 2026-10-21).
 2. ~~서버 자동 로그온 허용 여부~~ → 영상은 AutoView로 만들기로 해 보류(2026-10-21). G5 (3)이 실패할 때만 다시 묻는다.
+
+## 16. ASH.Core 공개 API (ASH 2차 완료, `feat/core-and-layout` @ `a93c033`, ASH 세션 회신 2026-10-21)
+
+서버 계획은 아래 API를 기준으로 세운다. 모두 netstandard2.0, InvariantCulture.
+
+- 입력: `ExcelReader.Read(path, out List<Finding> warnings) → ProjectInput`, `InputValidator.Validate(ProjectInput, cpNames?) → List<Finding>`.
+- 모델 생성: `ModelBuilder.Build(ModelBuildRequest(ProjectDir, ModelName, Input, Layout, ExportOptions, MaterialOverrides?, VehicleOverrides?, AutoView), amHome?, TimeSpan) → ModelBuildResult(ArcDir, Build?, Findings, Warnings)`. `ExportOptions.VehicleOverrides`(Type 이름 → `VehicleTemplateOverride(VehSegText?, VehicleBlockText?)`)와 `MaterialOverrides`로 서버 버전 값을 넣어 조립한다(5장 정본 규칙). 산출: `agv.asy`, `<Model>~.asy`, `model.amo`(`autoview` 토글), `params.txt`, `traffic.tsv`, `blocks.tsv`, `user_ext.m`, `arc\input.sig`.
+- 실행: `ModelRunner.Run(RunRequest(...)) → RunOutcome`(예외 없음), `ModelRunner.PrepareWorkSlot(projectDir, model, slot)`(동시 실행 슬롯), `RunScenario(Seed, ActiveByGroup, Debug)`, `ParamsFile`. 서버는 `DialogButton`을 null(기본)로 둔다.
+- 결과: `ResultParser`, `ResultSet`(Materials/Groups/Blocks/BlockGroups), `Kpi.FromRun → RunKpi[]`, `Judge.Evaluate → Verdict(Ok, Reason, RuleCode)`. 판정 순서: 정지시간>0 → 최소재고≥안전 → 가동률≤UtilMax → 소비량≥이론의 95% → 교착 0.
+- 탐색: `ArcLayout.Load(arcDir)`, `GroupClusters.Build(Layout, ProjectInput, TrafficTable)`, `SearchStrategy.Search(ProjectInput, IRunExecutor, GroupClusters, SearchOptions, ct) → SearchResult(Decided, Trace, Impact, Warnings)`. `ParallelExecutor`(슬롯 N, `IProgress<RunOutcome>`)로 진행률을 웹에 올린다. `SummaryTsv`, `ImpactTsv`.
+
+서버에서 주의할 점:
+- `SearchOptions.ImpactTable` 기본값은 false다. 서버는 6.7의 "영향표 기본 켜짐"에 따라 true로 넘긴다.
+- Core의 취소는 진행 중인 AM 프로세스를 죽이지 않는다. 6.6의 사용자 취소와 시간 제한은 워커가 프로세스를 직접 종료해 구현한다.
+- 가동률은 `.report` 누적값이라 warmup을 포함한다(3차에서 제외 예정). 결과 화면에 이 사실을 적는다.
+- AM 쪽 난수 시드가 없다(6.7 3번 주의와 같다).
+- 3차 미결: warmup 제외 계측, MTBF, 버퍼 대기, AutoView 영상, 보고서. 서버의 PPTX·영상 기능은 ASH 3차 결과를 쓴다.
