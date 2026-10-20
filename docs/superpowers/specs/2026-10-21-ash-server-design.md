@@ -62,7 +62,7 @@ AGV 수량 산출 작업은 다음 순서로 진행된다(사용자 설명).
 
 ## 4. 전체 구성
 
-ASH 솔루션에 프로젝트 두 개를 더한다. 신규 프로젝트는 C#, .NET 8이다. `ASH.Core`는 플러그인(net48) 때문에 지금처럼 .NET Standard 2.0으로 두고 함께 쓴다.
+ASH 솔루션(같은 저장소, 13장)에 프로젝트 두 개를 더한다. 신규 프로젝트는 C#, .NET 8이다. `ASH.Core`는 플러그인(net48) 때문에 지금처럼 .NET Standard 2.0으로 두고 함께 쓴다.
 
 ```
 ASH.Core      (기존) .asy Writer, Excel 스키마, 공용 로직 템플릿, 결과 파서, 판정, ModelRunner
