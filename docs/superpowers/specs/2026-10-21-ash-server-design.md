@@ -299,6 +299,8 @@ ASH 저장소 쪽에서 반영할 항목이다.
 5. `ModelBuilder`가 차량 정의(AGVVEHSEG·그래픽)와 자재를 외부 값으로 받아 조립할 수 있어야 한다(서버가 서버 버전 값으로 다시 조립하기 위해).
 6. 나중(서버 구현 시): `ash.settings.tsv`의 `ServerUrl`, "서버로 보내기"·"결과 올리기" 버튼, 로컬 실행에 쓴 입력의 내용 해시 기록.
 
+**ASH 반영 현황 (2026-10-21, ASH 세션 회신)**: 1~4는 2차 Task 4b로 진행 중이다. 형식은 `blocks.tsv` = `name cap minx miny maxx maxy`(내보내기 단위), `params.txt` = `DEBUG 0|1` 줄, `result.tsv` = `kind=blockgroup name=<block> group=<G> value1=대기초 value2=대기횟수` 행이다. 6.7 탐색은 2차 Task 9(`GroupClusters`, 좌표 하강, 영향표 `impact.tsv`, `IRunExecutor.Execute(RunScenario) → RunKpi[]`)로 구현한다. 동시 실행 기본 2는 Task 10이다. 5는 Task 5b(Task 10 뒤), 6은 서버 구현 때 한다. Core 시그니처는 Task 7~9 완료 후 ASH 세션이 다시 알려 준다.
+
 ## 15. 미결 사항 (사용자 답변 대기)
 
 1. 결론 카드의 "현재안 대비 증감"에서 "현재안"이 무엇인가(그룹별 MaxCount 합 / 이전 리비전 결과 / 사용자가 입력하는 현재 운영 대수).
